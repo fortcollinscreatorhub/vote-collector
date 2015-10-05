@@ -38,8 +38,32 @@ index_prefix="""\
 <html>
 <head>
 <title>FCCH vote counter</title>
+<style>
+#disable_ui
+{
+    /* Do not display it on entry */
+    display: none;
+    /*
+     * Display it on the layer with index 1000.
+     * Make sure this is the highest z-index value
+     * used by layers on that page
+     */
+    z-index: 1000;
+    /* Make it cover the whole screen */
+    position: fixed;
+    top: 0%%;
+    left: 0%%;
+    width: 100%%;
+    height: 100%%;
+    /* Make it white and partially transparent */
+    background-color: white;
+    opacity: .5;
+    filter: alpha(opacity=50);
+}
+</style>
 </head>
 <body>
+<div id="disable_ui"></div>
 <script>
 var to;
 function set_msg(s, col) {
@@ -96,6 +120,8 @@ function submit_votes() {
 
     set_msg_warn("Submitting vote...");
 
+    disable_ui();
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         on_submit_status(xhttp);
@@ -112,11 +138,12 @@ function on_submit_status(xhttp) {
 
     if (xhttp.status != 200) {
         set_msg_err("Vote request failed.");
-        return;
+    } else {
+        set_msg_ok("Vote accepted.");
+        reset_votes();
     }
 
-    set_msg_ok("Vote accepted.");
-    reset_votes();
+    enable_ui();
 }
 function reset_vote(elem_checkbox) {
     elem_checkbox.checked = false;
@@ -127,6 +154,13 @@ function reset_votes() {
 function reset_all() {
     reset_votes();
     clear_msg();
+}
+function disable_ui() {
+    overlay = document.getElementById('disable_ui');
+    overlay.style.display = 'block';
+}
+function enable_ui() {
+    document.getElementById('disable_ui').style.display = 'none';
 }
 </script>
 <h1>Choose up to %(maxvotes)d people:</h1>
