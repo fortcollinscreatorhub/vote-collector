@@ -222,4 +222,6 @@ class VoteCounter(object):
                 f.write(tstamp + "\n")
         return dict()
 
+cherrypy.engine.timeout_monitor.unsubscribe()
+cherrypy.engine.autoreload.unsubscribe()
 cherrypy.quickstart(VoteCounter())

@@ -4,11 +4,9 @@ maxvotes = 5
 
 # The people standing for election.
 people = [
-    "Curt Oliver",
     "Steve Undy",
     "Erik Andersen",
-    "Stephen Warren",
+    "Lou Sharpe",
+    "Curt Oliver",
     "Jim Zdunek",
-    "Test A",
-    "Test B",
 ]
